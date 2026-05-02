@@ -8,40 +8,64 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-        darkMode: 'class', 
-        theme: {
-            extend: {
-            colors: {
-                'text': '#041225',
-                'background': '#f5f5f5',
-                'primary': '#16506f',
-                'secondary': '#8fe1ef',
-                'accent': '#ffa857',
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'text': '#041225',
+                        'background': '#f5f5f5',
+                        'primary': '#16506f',
+                        'secondary': '#8fe1ef',
+                        'accent': '#ffa857',
+                    }
+                }
             }
-            }
-        }
         }
     </script>
 </head>
 
-<body class="h-screen w-screen overflow-hidden bg-black">
+<body class="h-screen w-screen overflow-hidden bg-primary">
     <div id="login">
         <div class="flex items-center justify-center h-screen">
-    </div>
-    <div id="home"
-        class="relative h-full w-full bg-[url('/images/wallpaper-default.jpeg')] bg-contain bg-center bg-no-repeat flex flex-col">
+            <div class="w-full max-w-md bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-xl">
+                <h2 class="text-2xl font-semibold text-background mb-4">Login</h2>
+                <form id="login-form" class="space-y-4" novalidate>
+                    <div>
+                        <label for="email" class="sr-only">Email</label>
+                        <input id="email" name="email" type="email" placeholder="email@gmail.com" required
+                            class="w-full px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-white/80 text-background placeholder:text-background/60 outline-none focus:ring-2 focus:ring-primary" />
+                    </div>
 
+                    <div class="relative">
+                        <label for="password" class="sr-only">Password</label>
+                        <input id="password" name="password" type="password" placeholder="Password" required
+                            class="w-full px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/10 hover:border-white/80 text-background placeholder:text-background/60 outline-none focus:ring-2 focus:ring-primary" />
+
+                        <button type="button" id="togglePassword" aria-label="Show password"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 text-background/80 px-2 py-1 rounded-md hover:text-white hover:bg-primary/10">Show</button>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-red-500" id="login-error" role="alert" aria-live="polite"></div>
+                        <button type="submit"
+                            class="ml-auto bg-primary px-4 py-2 rounded-xl text-background font-semibold hover:brightness-95">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="home" style="display: none;"
+        class="relative h-full w-full bg-[url('/images/wallpaper-default.jpeg')] bg-contain bg-center bg-no-repeat flex flex-col">
         <main id="desktop" class="grow relative p-6">
-            <!-- This is where your JS will inject app windows -->
         </main>
 
         <nav
             class="mb-3 self-center flex items-center px-3 py-2 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-2xl space-x-4">
 
             <button class="hover:scale-105 active:scale-95 transition-all">
-                <div
-                    class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg">
-                    <span class="text-white font-bold text-xl">B</span>
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                    <span class="text-background font-bold text-xl">B</span>
                 </div>
             </button>
 
@@ -63,7 +87,7 @@
                 </button>
             </div>
 
-            <div class="flex items-center border-l border-white/10 pl-4 text-white">
+            <div class="flex items-center border-l border-white/10 pl-4 text-background">
                 <div class="flex flex-col items-center leading-none">
                     <span class="text-sm font-semibold tracking-tighter" id="time_element">10:45 AM</span>
                     <span class="text-[10px] uppercase opacity-60 font-bold mt-1" id="date_element">May 24</span>
