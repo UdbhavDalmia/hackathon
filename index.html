@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,11 +27,9 @@
     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="h-screen w-screen overflow-hidden bg-primary">
     <div id="login">
-        <div
-            class="flex items-center justify-center h-screen bg-[url('/images/login-bg.jpeg')] bg-cover bg-center bg-no-repeat">
+        <div class="flex items-center justify-center h-screen bg-[url('/images/login-bg.jpeg')] bg-cover bg-center bg-no-repeat">
             <div class="w-[90%] max-w-2xl">
                 <h2 class="text-7xl text-center font-semibold text-background mb-10">Hello, User!</h2>
                 <form id="login-form" class="space-y-4" novalidate>
@@ -41,23 +38,18 @@
                         <input id="email" name="email" type="email" placeholder="email@gmail.com" required
                             class="w-full px-4 py-3 rounded-xl bg-white/20 hover:bg-white/10 transition-all border border-white/30 hover:border-white/80 text-background placeholder:text-background/60 outline-none focus:ring-2 focus:ring-primary" />
                     </div>
-
                     <div class="relative">
                         <label for="password" class="sr-only">Password</label>
                         <input id="password" name="password" type="password" placeholder="Password" required
                             class="w-full px-4 py-3 rounded-xl bg-white/20 hover:bg-white/10 transition-all border border-white/30 hover:border-white/80 text-background placeholder:text-background/60 outline-none focus:ring-2 focus:ring-primary" />
-
                         <button type="button" id="togglePassword" aria-label="Show password"
                             class="absolute right-2 top-1/2 -translate-y-1/2 text-background/80 px-2 py-1 rounded-md hover:text-white hover:bg-primary/10">Show</button>
                     </div>
-
                     <div class="flex items-center justify-between">
                         <button type="submit"
                             class=" object-center mt-3 mx-auto w-fit bg-secondary px-16 py-2 rounded-xl text-primary font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg">Login</button>
                     </div>
-
-                    <div class="text-sm text-red-500 text-center shadow-2xl" id="login-error" role="alert"
-                        aria-live="polite"></div>
+                    <div class="text-sm text-red-500 text-center shadow-2xl" id="login-error" role="alert" aria-live="polite"></div>
                 </form>
             </div>
             <div class="absolute bottom-10 flex items-center space-x-3 opacity-80 hover:opacity-100 transition-opacity">
@@ -68,24 +60,21 @@
             </div>
         </div>
     </div>
-
-    <div id="home" style="display: none;"
-        class="relative h-full w-full bg-[url('/images/wallpaper-default.jpg')] bg-cover bg-center bg-no-repeat flex flex-col">
+    <div id="home" style="display: none;" class="relative h-full w-full bg-[url('/images/wallpaper-default.jpg')] bg-cover bg-center bg-no-repeat flex flex-col">
         <main id="desktop" class="grow relative p-6">
             <div id="calculator" class="absolute z-10 hidden">
                 <div class="bg-white rounded-2xl p-5 w-80 shadow-2xl transition-transform duration-300">
-                    <div id="calc-header"
-                        class="bg-white rounded-xl shadow-md px-5 py-3 mb-5 cursor-grab active:cursor-grabbing">
-                        <h1 class="text-4xl font-bold text-black pointer-events-none">Calculator</h1>
+                    <div id="calc-header" class="cursor-grab active:cursor-grabbing pb-2 mb-4 border-b border-slate-100 flex justify-between items-center">
+                        <h2 class="text-xs font-bold text-black uppercase tracking-widest pointer-events-none">Calculator</h2>
+                        <button aria-label="Close calculator" title="Close" type="button" onclick="toggleCalculator()"
+                            class="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-xs shadow-sm hover:brightness-90 transition">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
-
-                    <input type="text" id="input" placeholder="0"
-                        class="w-full bg-gray-200 text-black text-3xl text-right px-4 py-3 rounded-xl border-none outline-none shadow-inner mb-4"
-                        readonly />
-
+                    <input type="text" id="input" placeholder="0" class="w-full bg-gray-200 text-black text-3xl text-right px-4 py-3 rounded-xl border-none outline-none shadow-inner mb-4" readonly />
                     <div class="flex gap-2 mb-2">
                         <button class="btn">CE</button>
-                        <button class="btn-accent">⌫</button>
+                        <button class="btn-accent"><i class="fa-solid fa-delete-left"></i></button>
                     </div>
                     <div class="flex gap-2 mb-2">
                         <button class="btn">1</button>
@@ -117,23 +106,23 @@
             </div>
             <div id="calender" class="absolute z-10 hidden">
                 <div class="bg-white rounded-3xl shadow-xl w-full max-w-sm p-6">
-                    <div id="calendar-header"
-                        class="cursor-grab active:cursor-grabbing pb-2 mb-4 border-b border-slate-100">
-                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest pointer-events-none">
-                            Calendar</h2>
+                    <div id="calendar-header" class="cursor-grab active:cursor-grabbing pb-2 mb-4 border-b border-slate-100 flex justify-between items-center">
+                        <h2 class="text-xs font-bold text-black uppercase tracking-widest pointer-events-none">Calendar</h2>
+                        <button aria-label="Close calendar" title="Close" type="button" onclick="toggleCalendar()"
+                            class="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-xs shadow-sm hover:brightness-90 transition">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
                     <div class="flex items-center justify-between mb-6">
-                        <button id="prev"
-                            class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
-                            ‹
+                        <button id="prev" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
+                            <i class="fa-solid fa-chevron-left"></i>
                         </button>
                         <div class="text-center">
                             <h1 id="month-name" class="month-title font-bold text-2xl text-slate-800"></h1>
                             <p id="year" class="text-sm text-slate-400 font-light"></p>
                         </div>
-                        <button id="next"
-                            class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
-                            ›
+                        <button id="next" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
+                            <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
                     <div class="grid grid-cols-7 mb-2">
@@ -147,30 +136,16 @@
                     </div>
                     <div id="days-grid" class="grid grid-cols-7 gap-y-1"></div>
                     <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
-                        <button id="today-btn"
-                            class="text-xs text-[#007bff] hover:text-blue-700 font-medium transition">Today</button>
+                        <button id="today-btn" class="text-xs text-[#007bff] hover:text-blue-700 font-medium transition">Today</button>
                         <p id="today-label" class="text-xs text-slate-400"></p>
                     </div>
-
                 </div>
             </div>
-
-            <!-- template for apps
-            <div id="settings"></div>
-            <div id="notepad"></div>
-            -->
         </main>
-
-        <nav
-            class="mb-3 self-center flex items-center px-3 py-2 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-2xl space-x-4">
-
-            <button id="start-menu-btn" class="hover:scale-105 active:scale-95 transition-all focus:outline-none"
-                aria-label="Start Menu">
-                <div
-                    class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center shadow-lg border border-white/20 hover:bg-white/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                        class="text-white">
+        <nav class="mb-3 self-center flex items-center px-3 py-2 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-2xl shadow-2xl space-x-4">
+            <button id="start-menu-btn" class="hover:scale-105 active:scale-95 transition-all focus:outline-none" aria-label="Start Menu">
+                <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center shadow-lg border border-white/20 hover:bg-white/30 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white">
                         <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"></rect>
                         <rect x="14" y="3" width="7" height="7" rx="1"></rect>
                         <rect x="3" y="14" width="7" height="7" rx="1"></rect>
@@ -178,38 +153,24 @@
                     </svg>
                 </div>
             </button>
-
             <div class="flex space-x-2 border-l border-white/10 pl-4">
-                <button class="group relative p-2 rounded-xl hover:bg-white/10 transition-colors"
-                    onclick="toggleCalculator()">
-                    <i
-                        class="fa-solid fa-calculator text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
-                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0">
-                    </div>
+                <button class="group relative p-2 rounded-xl hover:bg-white/10 transition-colors" onclick="toggleCalculator()">
+                    <i class="fa-solid fa-calculator text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
+                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0"></div>
                 </button>
-
-                <button class="group relative p-2 rounded-xl hover:bg-white/10 transition-colors"
-                    onclick="toggleCalendar()">
-                    <i
-                        class="fa-solid fa-calendar text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
-                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0">
-                    </div>
+                <button class="group relative p-2 rounded-xl hover:bg-white/10 transition-colors" onclick="toggleCalendar()">
+                    <i class="fa-solid fa-calendar text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
+                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0"></div>
                 </button>
-
                 <button class="group relative p-2 rounded-xl hover:bg-white/10 transition-colors">
                     <i class="fa-solid fa-gear text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
-                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0">
-                    </div>
+                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0"></div>
                 </button>
-
                 <button class="group relative p-2 rounded-xl hover:bg-white/10 transition-colors">
-                    <i
-                        class="fa-solid fa-clipboard text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
-                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0">
-                    </div>
+                    <i class="fa-solid fa-clipboard text-white text-2xl group-hover:-translate-y-1 transition-transform"></i>
+                    <div class="absolute w-1 h-1 bg-white rounded-full opacity-0"></div>
                 </button>
             </div>
-
             <div class="flex items-center border-l border-white/10 pl-4 text-background">
                 <div class="flex flex-col items-center leading-none">
                     <span class="text-sm font-semibold tracking-tighter" id="time_element">10:45 AM</span>
@@ -218,8 +179,6 @@
             </div>
         </nav>
     </div>
-
     <script src="script.js"></script>
 </body>
-
 </html>
