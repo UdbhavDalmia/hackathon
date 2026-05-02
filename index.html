@@ -6,10 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimalist Web OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+        darkMode: 'class', 
+        theme: {
+            extend: {
+            colors: {
+                'text': '#041225',
+                'background': '#f5f5f5',
+                'primary': '#16506f',
+                'secondary': '#8fe1ef',
+                'accent': '#ffa857',
+            }
+            }
+        }
+        }
+    </script>
 </head>
 
 <body class="h-screen w-screen overflow-hidden bg-black">
-    <div id="os-root"
+    <div id="login">
+        <div class="flex items-center justify-center h-screen">
+    </div>
+    <div id="home"
         class="relative h-full w-full bg-[url('/images/wallpaper-default.jpeg')] bg-contain bg-center bg-no-repeat flex flex-col">
 
         <main id="desktop" class="grow relative p-6">
