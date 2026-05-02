@@ -1,6 +1,6 @@
+//date and time
 const date_element = document.querySelector('#date_element')
 const time_element = document.querySelector("#time_element")
-
 function updateTime() {
     const date = new Date()
     const hours = date.getHours() % 12 || 12 // Changes to PM after 13
@@ -16,47 +16,48 @@ function updateTime() {
 updateTime()
 setInterval(updateTime, 1)
 
-// --- Login form handling ---
-const loginForm = document.querySelector('#login-form')
-const loginDiv = document.querySelector('#login')
-const homeDiv = document.querySelector('#home')
-const togglePasswordBtn = document.querySelector('#togglePassword')
-const passwordInput = document.querySelector('#password')
-const emailInput = document.querySelector('#email')
-const loginError = document.querySelector('#login-error')
 
-if (togglePasswordBtn && passwordInput) {
-    togglePasswordBtn.addEventListener('click', () => {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'
-        passwordInput.setAttribute('type', type)
-        togglePasswordBtn.textContent = type === 'password' ? 'Show' : 'Hide'
-        togglePasswordBtn.setAttribute('aria-label', type === 'password' ? 'Show password' : 'Hide password')
+
+//login
+const form = document.querySelector('#login-form')
+const login = document.querySelector('#login')
+const home = document.querySelector('#home')
+const toggle = document.querySelector('#togglePassword')
+const loginpassword = document.querySelector('#password')
+const loginemail = document.querySelector('#email')
+const error = document.querySelector('#login-error')
+
+if (toggle && password) {
+    toggle.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password'
+        password.setAttribute('type', type)
+        toggle.textContent = type === 'password' ? 'Show' : 'Hide'
+        toggle.setAttribute('aria-label', type === 'password' ? 'Show password' : 'Hide password')
     })
 }
-
-// Simple client-side "authentication": require non-empty values. Replace with real auth as needed.
-if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+//login management
+if (form) {
+    form.addEventListener('submit', (e) => {
         e.preventDefault()
-        loginError.textContent = ''
+        error.textContent = ''
 
-        const email = emailInput.value.trim()
-        const password = passwordInput.value.trim()
+        const email = loginemail.value.trim()
+        const password = loginpassword.value.trim()
 
         if (!email) {
-            loginError.textContent = 'Please enter your email.'
-            emailInput.focus()
+            error.textContent = 'Please enter your email.'
+            email.focus()
             return
         }
 
         if (!password) {
-            loginError.textContent = 'Please enter your password.'
-            passwordInput.focus()
+            error.textContent = 'Please enter your password.'
+            password.focus()
             return
         }
 
-        // For this demo we'll accept any non-empty email/password as success.
-        loginDiv.style.display = 'none'
-        homeDiv.style.display = 'flex'
+        //screen state management
+        login.style.display = 'none'
+        home.style.display = 'flex'
     })
 }
