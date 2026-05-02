@@ -234,13 +234,12 @@ document.getElementById("today-btn").addEventListener("click", () => {
 
 getcalendar();
 
-
 function toggleCalendar() {
   const calendar = document.querySelector("#calendar");
   calendar.classList.toggle("hidden");
   if (!calendar.classList.contains("hidden")) {
-      getcalendar(); 
-      initCalendarDraggable(); 
+    getcalendar();
+    initCalendarDraggable();
   }
 }
 
@@ -248,9 +247,9 @@ function initCalendarDraggable() {
   Draggable.create("#calendar", {
     type: "x,y",
     edgeResistance: 0.65,
-    bounds: "#desktop", 
-    inertia: true,      
-    handle: "#calendar-header", 
+    bounds: "#desktop",
+    inertia: true,
+    handle: "#calendar-header",
     onPress: function () {
       gsap.set(this.target, { zIndex: 100 });
       document.querySelectorAll("#desktop > div").forEach((el) => {
@@ -259,3 +258,20 @@ function initCalendarDraggable() {
     },
   });
 }
+
+//start
+function toggleStartMenu() {
+  const startMenu = document.querySelector("#start-menu");
+  startMenu.classList.toggle("hidden");
+}
+
+document.addEventListener("click", (e) => {
+  const startMenu = document.getElementById("start-menu");
+  const startBtn = document.getElementById("start-menu-btn");
+
+  if (startMenu && !startMenu.classList.contains("hidden")) {
+    if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
+      startMenu.classList.add("hidden");
+    }
+  }
+});
