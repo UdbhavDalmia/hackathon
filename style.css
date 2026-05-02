@@ -1,3 +1,5 @@
+/*calculator*/
+
 .btn {
   flex: 1;
   padding: 14px;
@@ -44,4 +46,16 @@
 
 .hidden {
   display: none;
+}
+
+.day-cell {
+  transition: all 0.15s ease;
+}
+.day-cell:hover {
+  transform: scale(1.1);
+}
+.today {
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
 }

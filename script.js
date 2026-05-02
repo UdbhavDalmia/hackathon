@@ -133,7 +133,7 @@ if (form) {
   });
 }
 
-//gsap
+//gsapcalc
 gsap.registerPlugin(Draggable);
 
 function initDraggable() {
@@ -143,6 +143,114 @@ function initDraggable() {
     bounds: "#desktop",
     inertia: true,
     handle: "#calc-header",
+    onPress: function () {
+      gsap.set(this.target, { zIndex: 100 });
+      document.querySelectorAll("#desktop > div").forEach((el) => {
+        if (el !== this.target) gsap.set(el, { zIndex: 10 });
+      });
+    },
+  });
+}
+
+//kalendar
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const now = new Date();
+let current = { month: now.getMonth(), year: now.getFullYear() };
+
+function getcalender() {
+  const { month, year } = current;
+  document.getElementById("month-name").textContent = months[month];
+  document.getElementById("year").textContent = year;
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const grid = document.getElementById("days-grid");
+  grid.innerHTML = "";
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    grid.appendChild(empty);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const cell = document.createElement("div");
+    const isToday =
+      d === now.getDate() &&
+      month === now.getMonth() &&
+      year === now.getFullYear();
+    const isSunday = (firstDay + d - 1) % 7 === 0;
+
+    cell.className = `day-cell flex items-center justify-center h-9 w-9 mx-auto text-sm cursor-pointer rounded-full
+          ${isToday ? "today font-semibold" : isSunday ? "text-red-400 hover:bg-red-50" : "text-slate-700 hover:bg-slate-100"}`;
+    cell.textContent = d;
+    grid.appendChild(cell);
+  }
+
+  // Today label
+  const todayStr = now.toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+  });
+  document.getElementById("today-label").textContent = todayStr;
+}
+
+document.getElementById("prev").addEventListener("click", () => {
+  current.month--;
+  if (current.month < 0) {
+    current.month = 11;
+    current.year--;
+  }
+  getcalender();
+});
+
+document.getElementById("next").addEventListener("click", () => {
+  current.month++;
+  if (current.month > 11) {
+    current.month = 0;
+    current.year++;
+  }
+  getcalender();
+});
+
+document.getElementById("today-btn").addEventListener("click", () => {
+  current = { month: now.getMonth(), year: now.getFullYear() };
+  getcalender();
+});
+
+getcalender();
+
+
+function toggleCalendar() {
+  const calendar = document.querySelector("#calender");
+  calendar.classList.toggle("hidden");
+  if (!calendar.classList.contains("hidden")) {
+      getcalender(); 
+      initCalendarDraggable(); 
+  }
+}
+
+function initCalendarDraggable() {
+  Draggable.create("#calender", {
+    type: "x,y",
+    edgeResistance: 0.65,
+    bounds: "#desktop", 
+    inertia: true,      
+    handle: "#calendar-header", 
     onPress: function () {
       gsap.set(this.target, { zIndex: 100 });
       document.querySelectorAll("#desktop > div").forEach((el) => {
