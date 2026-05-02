@@ -170,7 +170,7 @@ const months = [
 const now = new Date();
 let current = { month: now.getMonth(), year: now.getFullYear() };
 
-function getcalender() {
+function getcalendar() {
   const { month, year } = current;
   document.getElementById("month-name").textContent = months[month];
   document.getElementById("year").textContent = year;
@@ -215,7 +215,7 @@ document.getElementById("prev").addEventListener("click", () => {
     current.month = 11;
     current.year--;
   }
-  getcalender();
+  getcalendar();
 });
 
 document.getElementById("next").addEventListener("click", () => {
@@ -224,28 +224,28 @@ document.getElementById("next").addEventListener("click", () => {
     current.month = 0;
     current.year++;
   }
-  getcalender();
+  getcalendar();
 });
 
 document.getElementById("today-btn").addEventListener("click", () => {
   current = { month: now.getMonth(), year: now.getFullYear() };
-  getcalender();
+  getcalendar();
 });
 
-getcalender();
+getcalendar();
 
 
 function toggleCalendar() {
-  const calendar = document.querySelector("#calender");
+  const calendar = document.querySelector("#calendar");
   calendar.classList.toggle("hidden");
   if (!calendar.classList.contains("hidden")) {
-      getcalender(); 
+      getcalendar(); 
       initCalendarDraggable(); 
   }
 }
 
 function initCalendarDraggable() {
-  Draggable.create("#calender", {
+  Draggable.create("#calendar", {
     type: "x,y",
     edgeResistance: 0.65,
     bounds: "#desktop", 
