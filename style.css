@@ -154,3 +154,7 @@
     position: relative;
     z-index: 50;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
