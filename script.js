@@ -456,8 +456,8 @@ function showTab(tab) {
 }
 
 function changeBg(imgurl) {
-  home = document.getElementById("home")
-  home.style.backgroundImage = `url('${imgurl})`;
+  const home = document.getElementById("home")
+  home.style.backgroundImage = `url('${imgurl}')`;
   home.style.backgroundSize = "cover";
   home.style.backgroundPosition = "center";
 }
