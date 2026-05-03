@@ -142,7 +142,6 @@ function toggleCalculator() {
   calculator.classList.toggle("pointer-events-none");
   calculator.classList.toggle("scale-95");
   if (!calculator.classList.contains("opacity-0")) {
-    getcalendar();
     initDraggable();
   }
 }
@@ -299,3 +298,146 @@ document.addEventListener("click", (e) => {
     }
   }
 });
+
+//notepad
+
+let activeId = null;
+let isDirty = false;
+
+const editor = document.getElementById("editor");
+const titleBar = document.getElementById("titleBar");
+const wordCount = document.getElementById("wordCount");
+
+window.onload = () => {
+  const notes = getNotes();
+  if (notes.length > 0) loadNote(notes[0]);
+};
+
+function getNotes() {
+  return Object.keys(localStorage)
+    .filter((key) => key.startsWith("note:"))
+    .map((key) => JSON.parse(localStorage.getItem(key)))
+    .sort((a, b) => b.updatedAt - a.updatedAt);
+}
+
+function saveNote() {
+  const text = editor.value.trim();
+  if (!text) return showToast("Nothing to save!");
+
+  activeId = activeId || `note:${Date.now()}`;
+  const note = {
+    id: activeId,
+    title: text.split("\n")[0].substring(0, 20) || "Untitled",
+    body: editor.value,
+    updatedAt: Date.now(),
+  };
+
+  localStorage.setItem(activeId, JSON.stringify(note));
+  isDirty = false;
+  updateUI();
+  showToast("Saved successfully.");
+}
+
+function loadNote(note) {
+  activeId = note.id;
+  editor.value = note.body;
+  isDirty = false;
+  toggleModal("notesModal", false);
+  updateUI();
+}
+
+function deleteNote() {
+  if (!activeId) return;
+  localStorage.removeItem(activeId);
+  activeId = null;
+  editor.value = "";
+  updateUI();
+  showToast("Note deleted.");
+}
+
+function updateUI() {
+  const note = getNotes().find((n) => n.id === activeId);
+  titleBar.innerText = `${isDirty ? "* " : ""}${note ? note.title : "Untitled"} — Notepad`;
+
+  const words = editor.value.trim()
+    ? editor.value.trim().split(/\s+/).length
+    : 0;
+  wordCount.innerText = `${words} word${words !== 1 ? "s" : ""}`;
+}
+
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.classList.remove("hidden");
+  setTimeout(() => toast.classList.add("hidden"), 2500);
+}
+
+function toggleModal(modalId, show) {
+  if (modalId === "notesModal" && show) renderNotesList();
+  document.getElementById(modalId).classList.toggle("hidden", !show);
+}
+
+function renderNotesList() {
+  const list = document.getElementById("notesList");
+  const notes = getNotes();
+
+  if (notes.length === 0) {
+    list.innerHTML = `<p class="text-xs text-slate-400 p-4">No saved notes.</p>`;
+    return;
+  }
+
+  list.innerHTML = notes
+    .map(
+      (note) => `
+                <div class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50" onclick='loadNoteById("${note.id}")'>
+                    <p class="text-sm text-slate-700 font-medium">${note.title}</p>
+                    <p class="text-xs text-slate-400">${new Date(note.updatedAt).toLocaleDateString("en-IN")}</p>
+                </div>
+            `,
+    )
+    .join("");
+}
+
+function loadNoteById(id) {
+  const note = JSON.parse(localStorage.getItem(id));
+  if (note) loadNote(note);
+}
+
+editor.addEventListener("input", () => {
+  isDirty = true;
+  updateUI();
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "s") {
+    e.preventDefault();
+    saveNote();
+  }
+});
+
+function toggleNotes() {
+  const note = document.querySelector("#notepad");
+  note.classList.toggle("opacity-0");
+  note.classList.toggle("pointer-events-none");
+  note.classList.toggle("scale-95");
+  if (!note.classList.contains("opacity-0")) {
+    renderNotesList();
+    initNotesDraggable();
+  }
+}
+
+function initNotesDraggable() {
+  Draggable.create("#notepad", {
+    type: "x,y",
+    edgeResistance: 0.65,
+    bounds: "#desktop",
+    inertia: true,
+    handle: "#notes-header",
+    onPress: function () {
+      gsap.set(this.target, { zIndex: 100 });
+      document.querySelectorAll("#desktop > div").forEach((el) => {
+        if (el !== this.target) gsap.set(el, { zIndex: 10 });
+      });
+    },
+  });
+}
