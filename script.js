@@ -119,11 +119,12 @@ buttons.forEach((button) => {
 
 function toggleCalculator() {
   const calculator = document.querySelector("#calculator");
-  if (calculator.style.display === "none") {
-    calculator.style.display = "block";
+  calculator.classList.toggle("opacity-0");
+  calculator.classList.toggle("pointer-events-none");
+  calculator.classList.toggle("scale-95");
+  if (!calculator.classList.contains("opacity-0")) {
+    getcalendar();
     initDraggable();
-  } else {
-    calculator.style.display = "none";
   }
 }
 
@@ -236,8 +237,10 @@ getcalendar();
 
 function toggleCalendar() {
   const calendar = document.querySelector("#calendar");
-  calendar.classList.toggle("hidden");
-  if (!calendar.classList.contains("hidden")) {
+  calendar.classList.toggle("opacity-0");
+  calendar.classList.toggle("pointer-events-none");
+  calendar.classList.toggle("scale-95");
+  if (!calendar.classList.contains("opacity-0")) {
     getcalendar();
     initCalendarDraggable();
   }
