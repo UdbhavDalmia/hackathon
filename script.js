@@ -162,6 +162,7 @@ function initDraggable() {
     bounds: "#desktop",
     inertia: true,
     handle: "#calc-header",
+    dragClickables: false,
     onPress: function () {
       gsap.set(this.target, { zIndex: 100 });
       document.querySelectorAll("#desktop > div").forEach((el) => {
@@ -271,6 +272,7 @@ function initCalendarDraggable() {
     bounds: "#desktop",
     inertia: true,
     handle: "#calendar-header",
+    dragClickables: false,
     onPress: function () {
       gsap.set(this.target, { zIndex: 100 });
       document.querySelectorAll("#desktop > div").forEach((el) => {
@@ -433,6 +435,7 @@ function initNotesDraggable() {
     bounds: "#desktop",
     inertia: true,
     handle: "#notes-header",
+    dragClickables: false,
     onPress: function () {
       gsap.set(this.target, { zIndex: 100 });
       document.querySelectorAll("#desktop > div").forEach((el) => {
@@ -481,6 +484,7 @@ function initsettingsDraggable() {
     bounds: "#desktop",
     inertia: true,
     handle: "#settings-header",
+    dragClickables: false,
     onPress: function () {
       gsap.set(this.target, { zIndex: 100 });
       document.querySelectorAll("#desktop > div").forEach((el) => {

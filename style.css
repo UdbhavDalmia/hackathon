@@ -145,3 +145,12 @@
 .theme-section h2 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+#calculator button, 
+#calendar button, 
+#notepad button, 
+#settings button {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 50;
+}
