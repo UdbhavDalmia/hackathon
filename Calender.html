@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'DM Sans', sans-serif; }
+    .month-title { font-family: 'DM Serif Display', serif; }
+    .day-cell { transition: all 0.15s ease; }
+    .day-cell:hover { transform: scale(1.1); }
+    .today { background: #2563eb; color: white; border-radius: 50%; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white rounded-3xl shadow-xl w-full max-w-sm p-6">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <button id="prev" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
+        ‹
+      </button>
+      <div class="text-center">
+        <h1 id="month-name" class="month-title text-2xl text-slate-800"></h1>
+        <p id="year" class="text-sm text-slate-400 font-light"></p>
+      </div>
+      <button id="next" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
+        ›
+      </button>
+    </div>
+
+    <!-- Day Labels -->
+    <div class="grid grid-cols-7 mb-2">
+      <div class="text-center text-xs font-500 text-red-400 py-1">Su</div>
+      <div class="text-center text-xs text-slate-400 py-1">Mo</div>
+      <div class="text-center text-xs text-slate-400 py-1">Tu</div>
+      <div class="text-center text-xs text-slate-400 py-1">We</div>
+      <div class="text-center text-xs text-slate-400 py-1">Th</div>
+      <div class="text-center text-xs text-slate-400 py-1">Fr</div>
+      <div class="text-center text-xs text-slate-400 py-1">Sa</div>
+    </div>
+
+    <!-- Days Grid -->
+    <div id="days-grid" class="grid grid-cols-7 gap-y-1"></div>
+
+    <!-- Footer -->
+    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+      <button id="today-btn" class="text-xs text-blue-500 hover:text-blue-700 font-medium transition">Today</button>
+      <p id="today-label" class="text-xs text-slate-400"></p>
+    </div>
+
+  </div>
+
+  <script>
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const now = new Date();
+    let current = { month: now.getMonth(), year: now.getFullYear() };
+
+    function render() {
+      const { month, year } = current;
+      document.getElementById('month-name').textContent = months[month];
+      document.getElementById('year').textContent = year;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const grid = document.getElementById('days-grid');
+      grid.innerHTML = '';
+
+      // Empty cells
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        grid.appendChild(empty);
+      }
+
+      // Day cells
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement('div');
+        const isToday = d === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+        const isSunday = (firstDay + d - 1) % 7 === 0;
+
+        cell.className = `day-cell flex items-center justify-center h-9 w-9 mx-auto text-sm cursor-pointer rounded-full
+          ${isToday ? 'today font-semibold' : isSunday ? 'text-red-400 hover:bg-red-50' : 'text-slate-700 hover:bg-slate-100'}`;
+        cell.textContent = d;
+        grid.appendChild(cell);
+      }
+
+      // Today label
+      const todayStr = now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' });
+      document.getElementById('today-label').textContent = todayStr;
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      current.month--;
+      if (current.month < 0) { current.month = 11; current.year--; }
+      render();
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      current.month++;
+      if (current.month > 11) { current.month = 0; current.year++; }
+      render();
+    });
+
+    document.getElementById('today-btn').addEventListener('click', () => {
+      current = { month: now.getMonth(), year: now.getFullYear() };
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
