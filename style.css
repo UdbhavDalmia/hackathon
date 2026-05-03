@@ -48,6 +48,7 @@
   display: none;
 }
 
+/* calendar */
 .calendercells {
   transition: all 0.15s ease;
 }
@@ -60,6 +61,7 @@
   border-radius: 50%;
 }
 
+/* notepad */
 .notearea {
   font-family: "Courier Prime", monospace;
   resize: none;
@@ -111,7 +113,6 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: #fafafa;
   border-radius: 10px;
-  /* margin: 6px 0; */
   box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
