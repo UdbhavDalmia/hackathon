@@ -262,16 +262,18 @@ function initCalendarDraggable() {
 //start
 function toggleStartMenu() {
   const startMenu = document.querySelector("#start-menu");
-  startMenu.classList.toggle("hidden");
+  startMenu.classList.toggle("opacity-0");
+  startMenu.classList.toggle("translate-y-10");
+  startMenu.classList.toggle("pointer-events-none")
 }
 
 document.addEventListener("click", (e) => {
   const startMenu = document.getElementById("start-menu");
   const startBtn = document.getElementById("start-menu-btn");
 
-  if (startMenu && !startMenu.classList.contains("hidden")) {
+  if (startMenu && !startMenu.classList.contains("opacity-0")) {
     if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
-      startMenu.classList.add("hidden");
+      startMenu.classList.add("opacity-0");
     }
   }
 });
