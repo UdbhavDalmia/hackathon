@@ -441,3 +441,49 @@ function initNotesDraggable() {
     },
   });
 }
+
+//settings
+function showTab(tab) {
+  const sections = document.querySelectorAll(".tab-content");
+  sections.forEach((sec) => (sec.style.display = "none"));
+
+  document.getElementById(tab + "-section").style.display = "block";
+
+  const buttons = document.querySelectorAll(".side-menu button");
+  buttons.forEach((btn) => btn.classList.remove("active-tab"));
+
+  event.target.classList.add("active-tab");
+}
+
+function changeBg(imgurl) {
+  home = document.getElementById("home")
+  home.classList.replace(`'bg-[url("${imgurl}")]'`);
+}
+
+showTab("about");
+
+function togglesettings() {
+  const settings = document.querySelector("#settings");
+  settings.classList.toggle("opacity-0");
+  settings.classList.toggle("pointer-events-none");
+  settings.classList.toggle("scale-95");
+  if (!settings.classList.contains("opacity-0")) {
+    initsettingsDraggable();
+  }
+}
+
+function initsettingsDraggable() {
+  Draggable.create("#settings", {
+    type: "x,y",
+    edgeResistance: 0.65,
+    bounds: "#desktop",
+    inertia: true,
+    handle: "#settings-header",
+    onPress: function () {
+      gsap.set(this.target, { zIndex: 100 });
+      document.querySelectorAll("#desktop > div").forEach((el) => {
+        if (el !== this.target) gsap.set(el, { zIndex: 10 });
+      });
+    },
+  });
+}
