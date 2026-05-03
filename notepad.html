@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,38 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&family=Courier+Prime&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'DM Sans', sans-serif; }
-        .notepad-textarea {
+        .notearea {
             font-family: 'Courier Prime', monospace;
-            font-size: 14px;
-            line-height: 1.6;
             resize: none;
-            border: none;
-            outline: none;
-            width: 100%;
-            flex: 1;
-            padding: 8px 10px;
-            background: #fff;
-            color: #111;
         }
-        .status-bar { 
-            background: #f3f4f6; border-top: 1px solid #d1d5db;
-            padding: 2px 10px; font-size: 12px; color: #555;
-            display: flex; justify-content: center; align-items: center;
-            user-select: none;
-        }
-        .title-bar {
-            background: #fff; border-bottom: 1px solid #e5e7eb;
-            padding: 6px 12px; font-size: 13px; color: #333;
-            text-align: center; font-weight: 500;
-        }
-        .hidden { display: none !important; }
     </style>
 </head>
 <body class="min-h-screen bg-slate-100 flex items-center justify-center p-4">
 
-    <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-4 py-2 rounded-full shadow-lg z-50">
-        Saved successfully.
-    </div>
+    <div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-4 py-2 rounded-full shadow-lg z-50"></div>
 
     <div id="aboutModal" class="hidden fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
         <div class="bg-white rounded-xl shadow-2xl p-6 w-72 text-center">
@@ -48,7 +24,7 @@
             <h2 style="font-family: 'DM Serif Display', serif" class="text-lg text-slate-800 mb-1">Om's Notepad</h2>
             <p class="text-xs text-slate-500 mb-1">A simple text editor</p>
             <p class="text-xs text-slate-400">by Om Tiwari</p>
-            <button onclick="toggleAbout(false)" class="mt-4 text-xs bg-blue-600 text-white px-5 py-1.5 rounded-full hover:bg-blue-700 transition">OK</button>
+            <button onclick="toggleModal('aboutModal', false)" class="mt-4 text-xs bg-blue-600 text-white px-5 py-1.5 rounded-full hover:bg-blue-700 transition">OK</button>
         </div>
     </div>
 
@@ -56,110 +32,92 @@
         <div class="bg-white rounded-xl shadow-2xl w-80 overflow-hidden">
             <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center">
                 <span style="font-family: 'DM Serif Display', serif" class="text-base text-slate-800">Open Note</span>
-                <button onclick="toggleNotes(false)" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
+                <button onclick="toggleModal('notesModal', false)" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
             </div>
-            <div id="notesList" class="max-h-64 overflow-y-auto">
-                </div>
+            <div id="notesList" class="max-h-64 overflow-y-auto"></div>
         </div>
     </div>
 
-    <div class="bg-white border border-slate-300 shadow-2xl rounded-lg overflow-hidden flex flex-col w-full max-w-2xl" style="height: 520px;">
+    <div class="bg-white border border-slate-300 shadow-2xl rounded-lg overflow-hidden flex flex-col w-full max-w-2xl h-[520px]">
         
-        <div id="titleBar" class="title-bar">Untitled — Notepad</div>
+        <div id="titleBar" class="bg-white border-b border-slate-200 py-1.5 px-3 text-sm text-slate-800 text-center font-medium">Untitled — Notepad</div>
 
-        <div class="flex border-b border-slate-200 bg-white px-2 gap-1" style="font-size: 13px;">
-            <button onclick="toggleNotes(true)" class="px-4 py-1.5 rounded text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all">Open</button>
+        <div class="flex border-b border-slate-200 bg-white px-2 py-1 gap-1 text-sm">
+            <button onclick="toggleModal('notesModal', true)" class="px-4 py-1.5 rounded text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all">Open</button>
             <button onclick="saveNote()" class="px-4 py-1.5 rounded text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all">Save</button>
-            <button onclick="deleteActiveNote()" class="px-4 py-1.5 rounded text-slate-700 hover:bg-red-50 hover:text-red-500 transition-all">Delete</button>
-            <button onclick="toggleAbout(true)" class="px-4 py-1.5 rounded text-slate-700 hover:bg-slate-50 transition-all">About</button>
+            <button onclick="deleteNote()" class="px-4 py-1.5 rounded text-slate-700 hover:bg-red-50 hover:text-red-500 transition-all">Delete</button>
+            <button onclick="toggleModal('aboutModal', true)" class="px-4 py-1.5 rounded text-slate-700 hover:bg-slate-50 transition-all">About</button>
         </div>
 
-        <textarea id="editor" class="notepad-textarea" spellcheck="false" placeholder="Start typing..."></textarea>
+        <textarea id="editor" class="notearea flex-1 w-full p-3 text-sm leading-relaxed border-none outline-none text-slate-900" spellcheck="false" placeholder="Start typing..."></textarea>
 
-        <div class="status-bar">
+        <div class="bg-slate-50 border-top border-slate-300 py-1 px-3 text-xs text-slate-500 flex justify-center items-center select-none">
             <span id="wordCount">0 words</span>
         </div>
     </div>
 
     <script>
-        let activeNoteId = null;
+        let activeId = null;
         let isDirty = false;
+        
         const editor = document.getElementById('editor');
         const titleBar = document.getElementById('titleBar');
-        const wordCountDisplay = document.getElementById('wordCount');
+        const wordCount = document.getElementById('wordCount');
 
-        // Initial Load
         window.onload = () => {
-            renderNotesList();
-            const lastNote = getNotes()[0];
-            if (lastNote) loadNote(lastNote);
+            const notes = getNotes();
+            if (notes.length > 0) loadNote(notes[0]);
         };
 
-        // --- Logic Functions ---
-
         function getNotes() {
-            const notes = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith('note:')) {
-                    notes.push(JSON.parse(localStorage.getItem(key)));
-                }
-            }
-            return notes.sort((a, b) => b.updatedAt - a.updatedAt);
+            return Object.keys(localStorage)
+                .filter(key => key.startsWith('note:'))
+                .map(key => JSON.parse(localStorage.getItem(key)))
+                .sort((a, b) => b.updatedAt - a.updatedAt);
         }
 
         function saveNote() {
-            const body = editor.value;
-            if (!body.trim()) { showToast("Nothing to save!"); return; }
+            const text = editor.value.trim();
+            if (!text) return showToast("Nothing to save!");
             
-            const id = activeNoteId || `note:${Date.now()}`;
+            activeId = activeId || `note:${Date.now()}`;
             const note = {
-                id,
-                title: body.split('\n')[0].substring(0, 20) || "Untitled",
-                body,
+                id: activeId,
+                title: text.split('\n')[0].substring(0, 20) || "Untitled",
+                body: editor.value,
                 updatedAt: Date.now()
             };
             
-            localStorage.setItem(id, JSON.stringify(note));
-            activeNoteId = id;
+            localStorage.setItem(activeId, JSON.stringify(note));
             isDirty = false;
             updateUI();
             showToast("Saved successfully.");
         }
 
         function loadNote(note) {
-            activeNoteId = note.id;
+            activeId = note.id;
             editor.value = note.body;
             isDirty = false;
-            toggleNotes(false);
+            toggleModal('notesModal', false);
             updateUI();
         }
 
-        function deleteActiveNote() {
-            if (!activeNoteId) return;
-            localStorage.removeItem(activeNoteId);
-            activeNoteId = null;
+        function deleteNote() {
+            if (!activeId) return;
+            localStorage.removeItem(activeId);
+            activeId = null;
             editor.value = "";
             updateUI();
             showToast("Note deleted.");
         }
 
         function updateUI() {
-            const notes = getNotes();
-            const currentNote = notes.find(n => n.id === activeNoteId);
-            const title = currentNote ? currentNote.title : "Untitled";
-            titleBar.innerText = `${isDirty ? '* ' : ''}${title} — Notepad`;
+            const note = getNotes().find(n => n.id === activeId);
+            titleBar.innerText = `${isDirty ? '* ' : ''}${note ? note.title : "Untitled"} — Notepad`;
             
-            const words = editor.value.trim() === "" ? 0 : editor.value.trim().split(/\s+/).length;
-            wordCountDisplay.innerText = `${words} word${words !== 1 ? 's' : ''}`;
+            const words = editor.value.trim() ? editor.value.trim().split(/\s+/).length : 0;
+            wordCount.innerText = `${words} word${words !== 1 ? 's' : ''}`;
         }
-
-        // --- UI Handlers ---
-
-        editor.addEventListener('input', () => {
-            isDirty = true;
-            updateUI();
-        });
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
@@ -168,13 +126,9 @@
             setTimeout(() => toast.classList.add('hidden'), 2500);
         }
 
-        function toggleAbout(show) {
-            document.getElementById('aboutModal').classList.toggle('hidden', !show);
-        }
-
-        function toggleNotes(show) {
-            if (show) renderNotesList();
-            document.getElementById('notesModal').classList.toggle('hidden', !show);
+        function toggleModal(modalId, show) {
+            if (modalId === 'notesModal' && show) renderNotesList();
+            document.getElementById(modalId).classList.toggle('hidden', !show);
         }
 
         function renderNotesList() {
@@ -187,11 +141,9 @@
             }
 
             list.innerHTML = notes.map(note => `
-                <div class="flex items-center justify-between px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50" onclick='loadNoteById("${note.id}")'>
-                    <div>
-                        <p class="text-sm text-slate-700 font-medium">${note.title}</p>
-                        <p class="text-xs text-slate-400">${new Date(note.updatedAt).toLocaleDateString('en-IN')}</p>
-                    </div>
+                <div class="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50" onclick='loadNoteById("${note.id}")'>
+                    <p class="text-sm text-slate-700 font-medium">${note.title}</p>
+                    <p class="text-xs text-slate-400">${new Date(note.updatedAt).toLocaleDateString('en-IN')}</p>
                 </div>
             `).join('');
         }
@@ -201,13 +153,17 @@
             if (note) loadNote(note);
         }
 
-        // Shortcuts
+        editor.addEventListener('input', () => {
+            isDirty = true;
+            updateUI();
+        });
+
         window.addEventListener('keydown', e => {
-            if (e.ctrlKey && e.key === 's') { e.preventDefault(); saveNote(); }
+            if (e.ctrlKey && e.key === 's') { 
+                e.preventDefault(); 
+                saveNote(); 
+            }
         });
     </script>
 </body>
 </html>
-
-```
-
