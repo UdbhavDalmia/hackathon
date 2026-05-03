@@ -274,20 +274,17 @@
                                     <div class="flex gap-2">
                                         <div class="wallpaper-card w-[140px] h-[90px]"
                                             onclick="changeBg('images/wallpaper-2.jpg')">
-                                            <img src="images/wallpaper-2.jpg"
-                                                class="wallpaper-img" />
+                                            <img src="images/wallpaper-2.jpg" class="wallpaper-img" />
                                         </div>
 
                                         <div class="wallpaper-card w-[140px] h-[90px]"
                                             onclick="changeBg('images/wallpaper-default.jpg')">
-                                            <img src="images/wallpaper-default.jpg"
-                                                class="wallpaper-img" />
+                                            <img src="images/wallpaper-default.jpg" class="wallpaper-img" />
                                         </div>
 
                                         <div class="wallpaper-card w-[140px] h-[90px]"
                                             onclick="changeBg('images/wallpaper-1.jpg')">
-                                            <img src="images/wallpaper-1.jpg"
-                                                class="wallpaper-img" />
+                                            <img src="images/wallpaper-1.jpg" class="wallpaper-img" />
                                         </div>
                                     </div>
                                 </div>
@@ -336,6 +333,12 @@
                         <div class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-lg"><i
                                 class="fa-solid fa-clipboard text-secondary"></i></div>
                         <span class="font-medium tracking-wide">Notepad</span>
+                    </button>
+                    <button onclick="lockScreen(); toggleStartMenu()"
+                        class="flex items-center space-x-4 w-full p-3 text-left text-text hover:bg-white/20 rounded-xl transition-all">
+                        <div class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-lg"><i
+                                class="fa-solid fa-right-from-bracket"></i></div>
+                        <span class="font-medium tracking-wide">Sign Out</span>
                     </button>
                 </div>
             </div>

@@ -35,6 +35,26 @@ function unlockScreen() {
     .classList.remove("opacity-0", "translate-y-10", "pointer-events-none");
 }
 
+function lockScreen() {
+  document
+    .getElementById("lockscreen")
+    .classList.remove("opacity-0", "translate-y-10", "pointer-events-none");
+  document
+    .getElementById("bluroverlay")
+    .classList.replace("bg-black/40", "bg-black/0");
+  document
+    .getElementById("bluroverlay")
+    .classList.replace("backdrop-blur-xl", "backdrop-blur-none");
+  document
+    .getElementById("logincontainer")
+    .classList.add("opacity-0", "translate-y-10", "pointer-events-none");
+  document.getElementById("home").style.display = "none";
+  const loginSection = document.getElementById("login");
+  loginSection.style.display = "block";
+  loginSection.classList.remove("hidden");
+  document.querySelector("#password").value = "";
+}
+
 //login
 const form = document.querySelector("#login-form");
 const login = document.querySelector("#login");
@@ -459,7 +479,7 @@ function showTab(tab) {
 }
 
 function changeBg(imgurl) {
-  const home = document.getElementById("home")
+  const home = document.getElementById("home");
   home.style.backgroundImage = `url('${imgurl}')`;
   home.style.backgroundSize = "cover";
   home.style.backgroundPosition = "center";
