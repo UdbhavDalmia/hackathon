@@ -9,12 +9,31 @@ function updateTime() {
   const ampm = date.getHours() >= 12 ? "PM" : "AM"; // Changes AM/PM
   time_element.textContent = `${hours}:${minutes} ${ampm}`;
 
+  const lockscreentime = document.getElementById("lockscreentime");
+  lockscreentime.textContent = `${hours}:${minutes}`;
+
   const options = { month: "short", day: "numeric" };
   date_element.textContent = date.toLocaleDateString(undefined, options);
 }
 
 updateTime();
 setInterval(updateTime, 1);
+
+//login screen change
+function unlockScreen() {
+  document
+    .getElementById("lockscreen")
+    .classList.add("opacity-0", "translate-y-10", "pointer-events-none");
+  document
+    .getElementById("bluroverlay")
+    .classList.replace("bg-black/0", "bg-black/40");
+  document
+    .getElementById("bluroverlay")
+    .classList.replace("backdrop-blur-none", "backdrop-blur-xl");
+  document
+    .getElementById("logincontainer")
+    .classList.remove("opacity-0", "translate-y-10", "pointer-events-none");
+}
 
 //login
 const form = document.querySelector("#login-form");
@@ -267,7 +286,7 @@ function toggleStartMenu() {
   const startMenu = document.querySelector("#start-menu");
   startMenu.classList.toggle("opacity-0");
   startMenu.classList.toggle("translate-y-10");
-  startMenu.classList.toggle("pointer-events-none")
+  startMenu.classList.toggle("pointer-events-none");
 }
 
 document.addEventListener("click", (e) => {
