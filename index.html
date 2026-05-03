@@ -94,7 +94,7 @@
                         readonly />
                     <div class="flex gap-2 mb-2">
                         <button class="btn">CE</button>
-                        <button class="btn-accent"><i class="fa-solid fa-delete-left"></i></button>
+                        <button class="btnspecial"><i class="fa-solid fa-delete-left"></i></button>
                     </div>
                     <div class="flex gap-2 mb-2">
                         <button class="btn">1</button>
@@ -114,7 +114,7 @@
                     <div class="flex gap-2 mb-2">
                         <button class="btn">0</button>
                         <button class="btn">.</button>
-                        <button class="btn-accent">=</button>
+                        <button class="btnspecial">=</button>
                     </div>
                     <div class="flex gap-2">
                         <button class="btn">+</button>
@@ -169,7 +169,7 @@
             </div>
             <div id="notepad"
                 class="absolute z-10 transition-all duration-300 ease-out opacity-0 scale-95 pointer-events-none">
-                <div class="bg-white rounded-3xl shadow-xl w-full max-w-4xl p-6">
+                <div class="bg-white rounded-3xl shadow-xl w-full max-w-8xl p-6">
                     <div id="notes-header"
                         class="cursor-grab active:cursor-grabbing pb-2 mb-4 border-b border-slate-100 flex justify-between items-center">
                         <h2 class="text-s font-bold text-black uppercase tracking-widest pointer-events-none">Notes
@@ -196,25 +196,23 @@
                         </div>
                     </div>
                     <div
-                        class="bg-white border border-slate-300 shadow-2xl rounded-lg overflow-hidden flex flex-col w-full max-w-2xl h-[520px]">
+                        class="bg-white border border-slate-300 shadow-2xl rounded-lg overflow-hidden flex flex-col w-full h-[350px]">
 
                         <div id="titleBar"
                             class="bg-white border-b border-slate-200 py-1.5 px-3 text-sm text-slate-800 text-center font-medium">
                             Untitled — Notepad</div>
 
-                        <div class="flex border-b border-slate-200 bg-white px-2 py-1 gap-1 text-sm">
+                        <div class="flex border-b border-slate-200 bg-white px-5 py-1 gap-3 text-sm">
                             <button onclick="toggleModal('notesModal', true)"
                                 class="px-4 py-1.5 rounded text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all">Open</button>
                             <button onclick="saveNote()"
                                 class="px-4 py-1.5 rounded text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all">Save</button>
                             <button onclick="deleteNote()"
                                 class="px-4 py-1.5 rounded text-slate-700 hover:bg-red-50 hover:text-red-500 transition-all">Delete</button>
-                            <button onclick="toggleModal('aboutModal', true)"
-                                class="px-4 py-1.5 rounded text-slate-700 hover:bg-slate-50 transition-all">About</button>
                         </div>
 
                         <textarea id="editor"
-                            class="notepad-textarea flex-1 w-full p-3 text-sm leading-relaxed border-none outline-none text-slate-900"
+                            class="notearea flex-1 w-md p-3 text-sm leading-relaxed border-none outline-none text-slate-900"
                             spellcheck="false" placeholder="Start typing..."></textarea>
 
                         <div
@@ -251,15 +249,15 @@
                     <button
                         class="flex items-center space-x-4 w-full p-3 text-left text-text hover:bg-white/20 rounded-xl transition-all">
                         <div class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-lg"><i
-                                class="fa-solid fa-clipboard text-secondary"></i></div>
-                        <span class="font-medium tracking-wide">Notepad</span>
-                    </button>
-                    <hr class="border-white/10 mx-4">
-                    <button
-                        class="flex items-center space-x-4 w-full p-3 text-left text-text hover:bg-white/20 rounded-xl transition-all">
-                        <div class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-lg"><i
                                 class="fa-solid fa-gear text-secondary"></i></div>
                         <span class="font-medium tracking-wide">Settings</span>
+                    </button>
+                    <hr class="border-white/10 mx-4">
+                    <button onclick="toggleNotes(); toggleStartMenu()"
+                        class="flex items-center space-x-4 w-full p-3 text-left text-text hover:bg-white/20 rounded-xl transition-all">
+                        <div class="w-8 h-8 flex items-center justify-center bg-white/10 rounded-lg"><i
+                                class="fa-solid fa-clipboard text-secondary"></i></div>
+                        <span class="font-medium tracking-wide">Notepad</span>
                     </button>
                 </div>
             </div>

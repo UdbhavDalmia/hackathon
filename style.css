@@ -22,7 +22,7 @@
   transform: scale(0.95);
 }
 
-.btn-accent {
+.btnspecial {
   flex: 1;
   padding: 14px;
   background-color: #007bff;
@@ -35,12 +35,12 @@
   transition: all 0.2s ease;
 }
 
-.btn-accent:hover {
+.btnspecial:hover {
   background-color: #3399ff;
   transform: translateY(-2px);
 }
 
-.btn-accent:active {
+.btnspecial:active {
   transform: scale(0.95);
 }
 
@@ -48,10 +48,10 @@
   display: none;
 }
 
-.day-cell {
+.calendercells {
   transition: all 0.15s ease;
 }
-.day-cell:hover {
+.calendercells:hover {
   transform: scale(1.1);
 }
 .today {
@@ -60,7 +60,7 @@
   border-radius: 50%;
 }
 
-.notepad-textarea {
+.notearea {
   font-family: "Courier Prime", monospace;
   resize: none;
 }

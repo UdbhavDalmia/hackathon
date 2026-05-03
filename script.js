@@ -213,7 +213,7 @@ function getcalendar() {
       year === now.getFullYear();
     const isSunday = (firstDay + d - 1) % 7 === 0;
 
-    cell.className = `day-cell flex items-center justify-center h-9 w-9 mx-auto text-sm cursor-pointer rounded-full
+    cell.className = `calendercells flex items-center justify-center h-9 w-9 mx-auto text-sm cursor-pointer rounded-full
           ${isToday ? "today font-semibold" : isSunday ? "text-red-400 hover:bg-red-50" : "text-slate-700 hover:bg-slate-100"}`;
     cell.textContent = d;
     grid.appendChild(cell);
