@@ -518,3 +518,27 @@ function initsettingsDraggable() {
     },
   });
 }
+
+//status tray
+function toggleStatusTray() {
+  const tray = document.querySelector("#statustray");
+  const soundTray = document.querySelector("#soundtray");
+
+  tray.classList.toggle("opacity-0");
+  tray.classList.toggle("pointer-events-none");
+  tray.classList.toggle("scale-95");
+
+  if (tray.classList.contains("opacity-0")) {
+    soundTray.classList.add("opacity-0", "pointer-events-none", "scale-90");
+  }
+}
+
+function toggleSoundTray() {
+  const soundTray = document.querySelector("#soundtray");
+  const soundtraybutton = document.querySelector("#soundtraybutton");
+  soundTray.classList.toggle("opacity-0");
+  soundTray.classList.toggle("pointer-events-none");
+  soundTray.classList.toggle("scale-90");
+  soundtraybutton.classList.toggle("fa-chevron-up");
+  soundtraybutton.classList.toggle("fa-chevron-down");
+}

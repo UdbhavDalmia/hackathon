@@ -383,10 +383,49 @@
                 </button>
             </div>
 
-            <div class="flex items-center border-l border-white/10 pl-4 text-background">
-                <div class="flex flex-col items-center leading-none">
+            <div id="status-tray-btn"
+                class="flex items-center border-l border-white/10 pl-4 text-background cursor-pointer hover:opacity-80 transition-opacity"
+                onclick="toggleStatusTray()">
+                <div class="flex flex-col items-center leading-none pointer-events-none">
                     <span class="text-sm font-semibold tracking-tighter" id="time_element">10:45 AM</span>
                     <span class="text-[10px] uppercase opacity-60 font-bold mt-1" id="date_element">May 24</span>
+                </div>
+            </div>
+            <div id="statustray"
+                class="absolute bottom-0 -right-[300px] z-50 transition-all duration-300 ease-out opacity-0 scale-95 pointer-events-none">
+                <div class="bg-white/80 backdrop-blur-2xl rounded-2xl p-4 w-72 shadow-2xl border border-white/20">
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <button
+                            class="flex flex-col items-center justify-center p-3 bg-primary/10 rounded-xl hover:bg-primary/20 transition-all">
+                            <i class="fa-solid fa-wifi mb-1"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-tighter">WiFi</span>
+                        </button>
+                        <button
+                            class="flex flex-col items-center justify-center p-3 bg-primary/10 rounded-xl hover:bg-primary/20 transition-all">
+                            <i class="fa-solid fa-ethernet mb-1"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-tighter">Ethernet</span>
+                        </button>
+                    </div>
+                    <button onclick="toggleSoundTray()"
+                        class="w-full flex items-center justify-between p-3 bg-primary/5 rounded-xl hover:bg-primary/10 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-volume-high"></i>
+                            <span class="text-xs font-semibold text-text">Sound Settings</span>
+                        </div>
+                        <i id="soundtraybutton" class="fa-solid fa-chevron-up text-[10px] opacity-50"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="soundtray"
+                class="absolute bottom-40 -right-[300px] z-60 transition-all duration-300 ease-out opacity-0 scale-90 pointer-events-none">
+                <div class="bg-white/90 backdrop-blur-3xl rounded-2xl p-4 w-72 shadow-2xl border border-white/30">
+                    <div class="flex items-center space-x-4">
+                        <i class="fa-solid fa-volume-low text-sm"></i>
+                        <input type="range"
+                            class="grow h-1 bg-text/20 rounded-lg appearance-none cursor-pointer accent-text"
+                            value="70">
+                        <i class="fa-solid fa-volume-high text-sm"></i>
+                    </div>
                 </div>
             </div>
         </nav>
