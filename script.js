@@ -53,6 +53,7 @@ function lockScreen() {
   loginSection.style.display = "block";
   loginSection.classList.remove("hidden");
   document.querySelector("#password").value = "";
+  document.querySelector("#email").value = "";
 }
 
 //login
