@@ -1,4 +1,4 @@
-VERDENT OS
+VERDANT OS
 
 This os is inspired by macOS and Windows.
 
@@ -9,5 +9,5 @@ Team - CM SHRI GANDHI NAGAR
 
 Team member-
 Udbhav Dalmia ,
-Shashwat Tiwari
-,Om Tiwari
+Shashwat Tiwari , 
+Om Tiwari
