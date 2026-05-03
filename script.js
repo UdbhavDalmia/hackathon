@@ -56,7 +56,7 @@ function lockScreen() {
   document.querySelector("#email").value = "";
 }
 
-//login
+//login setup
 const form = document.querySelector("#login-form");
 const login = document.querySelector("#login");
 const home = document.querySelector("#home");
@@ -77,6 +77,7 @@ if (toggle && loginpassword) {
     );
   });
 }
+
 //login management
 if (form) {
   form.addEventListener("submit", (e) => {
@@ -219,7 +220,7 @@ function getcalendar() {
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  const grid = document.getElementById("days-grid");
+  const grid = document.getElementById("daygrid");
   grid.innerHTML = "";
 
   for (let i = 0; i < firstDay; i++) {
@@ -241,7 +242,6 @@ function getcalendar() {
     grid.appendChild(cell);
   }
 
-  // Today label
   const todayStr = now.toLocaleDateString("en-IN", {
     weekday: "long",
     day: "numeric",
@@ -250,6 +250,7 @@ function getcalendar() {
   document.getElementById("today-label").textContent = todayStr;
 }
 
+// calendeer nav buttons
 document.getElementById("prev").addEventListener("click", () => {
   current.month--;
   if (current.month < 0) {
@@ -275,6 +276,7 @@ document.getElementById("today-btn").addEventListener("click", () => {
 
 getcalendar();
 
+//calender gsap and visibility
 function toggleCalendar() {
   const calendar = document.querySelector("#calendar");
   calendar.classList.toggle("opacity-0");
@@ -438,6 +440,7 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+//notes gsap and toggle
 function toggleNotes() {
   const note = document.querySelector("#notepad");
   note.classList.toggle("opacity-0");
@@ -488,6 +491,7 @@ function changeBg(imgurl) {
 
 showTab("about");
 
+//setting gsap and toggle
 function togglesettings() {
   const settings = document.querySelector("#settings");
   settings.classList.toggle("opacity-0");
