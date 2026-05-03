@@ -457,7 +457,7 @@ function showTab(tab) {
 
 function changeBg(imgurl) {
   home = document.getElementById("home")
-  home.classList.replace(`'bg-[url("${imgurl}")]'`);
+  home.classList.replace(`'bg-[url("${imgurl}")]'`, `'bg-[url("${imgurl}")'`);
 }
 
 showTab("about");
