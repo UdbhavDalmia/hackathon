@@ -36,7 +36,7 @@
             <div id="bluroverlay"
                 class="absolute inset-0 transition-all duration-1000 bg-black/0 backdrop-blur-none z-0"></div>
             <div id="lockscreen" onclick="unlockScreen()"
-                class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer z-20 transition-all duration-1000">
+                class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer z-20 transition-all duration-800">
                 <h1 id="lockscreentime"
                     class="text-[10rem] text-white font-bold drop-shadow-md select-none leading-none"></h1>
                 <p class="animate-pulse text-white mt-12 text-sm uppercase tracking-widest font-semibold"><i
@@ -66,8 +66,21 @@
                         aria-live="polite"></div>
                 </form>
             </div>
+            <div id="loadingscreen"
+                class="fixed inset-0 z-100 flex flex-col items-center justify-center bg-black/60 backdrop-blur-xl hidden">
+                <div class="relative flex items-center justify-center">
+                    <div class="w-24 h-24 border-4 border-secondary/20 border-t-secondary rounded-full animate-spin">
+                    </div>
+                    <div
+                        class="absolute flex items-center justify-center w-12 h-12 bg-[#63e6be] rounded-lg shadow-[0_0_20px_rgba(143,225,239,0.5)]">
+                        <i class="fa-solid fa-leaf text-primary text-2xl animate-pulse"></i>
+                    </div>
+                </div>
+                <p class="mt-8 text-secondary font-bold tracking-[0.2em] uppercase text-sm ">Booting
+                    OS...</p>
+            </div>
             <div id="branding"
-                class="absolute bottom-10 flex items-center space-x-3 opacity-80 hover:opacity-100 transition-opacity">
+                class="absolute bottom-10 flex items-center space-x-3 opacity-80 hover:opacity-100 transition-all duration-300">
                 <div class="w-8 h-8 bg-[#63e6be] rounded-lg flex items-center justify-center shadow-lg">
                     <i class="fa-solid fa-leaf text-primary text-lg"></i>
                 </div>
@@ -75,8 +88,9 @@
             </div>
         </div>
     </div>
+
     <div id="home" style="display: none;"
-        class="relative h-full w-full bg-[url('/images/wallpaper-default.webp')] bg-cover bg-center bg-no-repeat flex flex-col">
+        class="opacity-0 relative h-full w-full bg-[url('/images/wallpaper-default.webp')] bg-cover bg-center bg-no-repeat flex flex-col">
         <main id="desktop" class="grow relative p-6">
             <div id="calculator"
                 class="absolute z-10 transition-all duration-300 ease-out opacity-0 scale-95 pointer-events-none">
@@ -90,7 +104,7 @@
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
-                    <input type="text" id="input" placeholder="0"
+                    <input type="text" id="calculatorInput" placeholder="0"
                         class="w-full bg-gray-200 text-black text-3xl text-right px-4 py-3 rounded-xl border-none outline-none shadow-inner mb-4"
                         readonly />
                     <div class="flex gap-2 mb-2">
@@ -169,7 +183,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="notepad"
                 class="absolute z-10 transition-all duration-300 ease-out opacity-0 scale-95 pointer-events-none">
                 <div class="bg-white rounded-3xl shadow-xl w-full max-w-8xl p-6">
@@ -225,7 +239,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="settings"
                 class="absolute z-10 transition-all duration-300 ease-out opacity-0 scale-95 pointer-events-none">
                 <div class="bg-white main-box m-2 w-2/3 h-[380px] flex flex-col p-3">
@@ -374,7 +388,7 @@
                     <div class="absolute w-1 h-1 bg-white rounded-full opacity-0"></div>
                 </button>
                 <button class="group relative p-2 rounded-xl transition-scale" onclick="togglesettings()">
-                    <i
+                    <i id="settingsIcon"
                         class="fa-solid fa-gear text-white text-2xl group-hover:-translate-y-1 hover:scale-110 transition-transform"></i>
                     <div class="absolute w-1 h-1 bg-white rounded-full opacity-0"></div>
                 </button>

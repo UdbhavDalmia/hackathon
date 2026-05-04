@@ -1,6 +1,7 @@
-//date and time
+//Clock and Date
 const date_element = document.querySelector("#date_element");
 const time_element = document.querySelector("#time_element");
+
 function updateTime() {
   const date = new Date();
   const hours = date.getHours() % 12 || 12; // Changes to PM after 13
@@ -15,45 +16,72 @@ function updateTime() {
   const options = { month: "short", day: "numeric" };
   date_element.textContent = date.toLocaleDateString(undefined, options);
 }
-
 updateTime();
 setInterval(updateTime, 1);
 
-//login screen change
+//Login Screen Updates
 function unlockScreen() {
   document
     .getElementById("lockscreen")
-    .classList.add("opacity-0", "translate-y-10", "pointer-events-none");
+    .classList.add("opacity-0", "-translate-y-[180px]", "pointer-events-none");
   document
     .getElementById("bluroverlay")
-    .classList.replace("bg-black/0", "bg-black/40");
+    .classList.replace("bg-black/0", "bg-black/50");
   document
     .getElementById("bluroverlay")
-    .classList.replace("backdrop-blur-none", "backdrop-blur-xl");
+    .classList.replace("backdrop-blur-none", "backdrop-blur-l");
   document
     .getElementById("logincontainer")
     .classList.remove("opacity-0", "translate-y-10", "pointer-events-none");
 }
 
 function lockScreen() {
-  document
-    .getElementById("lockscreen")
-    .classList.remove("opacity-0", "translate-y-10", "pointer-events-none");
-  document
-    .getElementById("bluroverlay")
-    .classList.replace("bg-black/40", "bg-black/0");
-  document
-    .getElementById("bluroverlay")
-    .classList.replace("backdrop-blur-xl", "backdrop-blur-none");
-  document
-    .getElementById("logincontainer")
-    .classList.add("opacity-0", "translate-y-10", "pointer-events-none");
-  document.getElementById("home").style.display = "none";
-  const loginSection = document.getElementById("login");
-  loginSection.style.display = "block";
-  loginSection.classList.remove("hidden");
-  document.querySelector("#password").value = "";
-  document.querySelector("#email").value = "";
+    const loginSection = document.getElementById("login");
+    const homeSection = document.getElementById("home");
+    const loginContainer = document.getElementById("logincontainer");
+    const loadingScreen = document.getElementById("loadingscreen");
+    const bluroverlay = document.getElementById("bluroverlay");
+    const lockscreen = document.getElementById("lockscreen");
+    const branding = document.getElementById("branding");
+
+    gsap.killTweensOf([loginSection, homeSection, loadingScreen, loginContainer, branding]);
+
+    gsap.to(homeSection, {
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.inOut",
+        onComplete: () => {
+            homeSection.style.display = "none";
+            
+            loginSection.style.display = "block";
+            loginSection.style.opacity = "1";
+            
+            loginContainer.classList.add("opacity-0", "translate-y-10", "pointer-events-none");
+            gsap.set(loginContainer, { opacity: 0, y: 10 });
+
+            lockscreen.classList.remove("opacity-0", "-translate-y-[180px]", "pointer-events-none");
+            gsap.set(lockscreen, { opacity: 1, y: 0 });
+
+            bluroverlay.classList.className = ""; 
+            bluroverlay.className = "absolute inset-0 transition-all duration-1000 bg-black/0 backdrop-blur-none z-0";
+
+            loadingScreen.classList.add("hidden");
+            gsap.set(loadingScreen, { opacity: 0 });
+
+            gsap.set(branding, { opacity: 0.8, display: "flex" });
+            branding.classList.remove("hidden");
+
+            document.querySelector("#password").value = "";
+            document.querySelector("#email").value = "";
+            
+            if (document.getElementById("calculatorInput")) {
+                document.getElementById("calculatorInput").value = "0";
+            }
+            
+            const errorElement = document.querySelector("#login-error");
+            if (errorElement) errorElement.textContent = "";
+        }
+    });
 }
 
 //login setup
@@ -89,70 +117,126 @@ if (form) {
 
     if (!email) {
       error.textContent = "Please enter your email.";
-      email.focus();
+      loginemail.focus();
       return;
     }
-
     if (!password) {
       error.textContent = "Please enter your password.";
-      password.focus();
+      loginpassword.focus();
       return;
     }
 
-    //screen state management
-    login.style.display = "none";
-    home.style.display = "flex";
+    const loginSection = document.getElementById("login");
+    const loginContainer = document.getElementById("logincontainer");
+    const loadingScreen = document.getElementById("loadingscreen");
+    const homeSection = document.getElementById("home");
+    const branding = document.getElementById("branding");
+
+    // Start transition
+    gsap.to(loginContainer, {
+      opacity: 0,
+      y: -20,
+      duration: 0.01,
+      ease: "power2.in",
+    });
+    gsap.to(branding, { opacity: 0, duration: 0.01, ease: "power2.in" });
+
+    loadingScreen.classList.remove("hidden");
+    gsap.fromTo(loadingScreen, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+
+    setTimeout(() => {
+      const tl = gsap.timeline();
+
+      tl.to(loadingScreen, {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+      })
+        .to(
+          loginSection,
+          {
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.inOut",
+          },
+          "<",
+        )
+        .set(homeSection, { display: "flex" })
+        .to(
+          homeSection,
+          {
+            opacity: 1,
+            duration: 1.2,
+            ease: "power1.out",
+            onStart: () => {
+              loginSection.style.display = "none";
+            },
+          },
+          "-=0.4",
+        );
+    }, 2000);
   });
 }
 
 //calculator
-const input = document.getElementById("input");
+const calculatorInput = document.getElementById("calculatorInput");
 const buttons = document.querySelectorAll("#calculator button");
 
-if (input && (!input.value || input.value.trim() === "")) {
-  input.value = "0";
+if (
+  calculatorInput &&
+  (!calculatorInput.value || calculatorInput.value.trim() === "")
+) {
+  calculatorInput.value = "0";
 }
+
+let isNewEntry = false;
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     const label = button.textContent.trim();
 
+    const cleanedExpression = (val) => {
+      return val.replace(/\b0+((\d+\.\d+|\d+))\b/g, "$1");
+    };
+
     switch (label) {
       case "CE":
-        input.value = "0";
+        calculatorInput.value = "0";
+        isNewEntry = false;
         break;
       case "DEL":
-        input.value = input.value.length > 1 ? input.value.slice(0, -1) : "0";
-        break;
       case "⌫":
-        input.value = input.value.slice(0, -1);
-        if (!input.value) input.value = "0";
-        break;
-      case "=": {
-        const expr = input.value;
-        if (/^[0-9+\-*/.()\s]+$/.test(expr)) {
-          try {
-            const result = Function('"use strict"; return (' + expr + ")")();
-            input.value = String(result);
-          } catch (_) {
-            input.value = "Error";
-          }
+        if (calculatorInput.value.length > 1) {
+          calculatorInput.value = calculatorInput.value.slice(0, -1);
         } else {
-          input.value = "Error";
+          calculatorInput.value = "0";
         }
         break;
-      }
+      case "=":
+        try {
+          const cleaned = cleanedExpression(calculatorInput.value);
+          const result = Function('"use strict"; return (' + cleaned + ")")();
+          calculatorInput.value = String(result);
+          isNewEntry = true; // Set flag so next number clears display
+        } catch (_) {
+          calculatorInput.value = "Error";
+          isNewEntry = true;
+        }
+        break;
       default:
+        // Handle number/operator entry
         if (/^[0-9.]$/.test(label)) {
-          if (input.value === "0" || input.value === "") {
-            input.value = label;
+          if (calculatorInput.value === "0" || isNewEntry) {
+            calculatorInput.value = label;
+            isNewEntry = false;
           } else {
-            input.value += label;
+            calculatorInput.value += label;
           }
         } else {
-          // operators etc.
-          if (input.value === "") input.value = "0";
-          input.value += label;
+          // It's an operator (+, -, *, /)
+          isNewEntry = false;
+          if (calculatorInput.value === "Error") calculatorInput.value = "0";
+          calculatorInput.value += label;
         }
     }
   });
@@ -170,7 +254,7 @@ function toggleCalculator() {
 
 if (form) {
   form.addEventListener("submit", (e) => {
-    if (input) input.value = "0";
+    if (calculatorInput) calculatorInput.value = "0";
   });
 }
 

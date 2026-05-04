@@ -147,13 +147,13 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#calculator button, 
-#calendar button, 
-#notepad button, 
+#calculator button,
+#calendar button,
+#notepad button,
 #settings button {
-    pointer-events: auto !important;
-    position: relative;
-    z-index: 50;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 50;
 }
 
 ::-webkit-scrollbar {
